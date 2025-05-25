@@ -1,3 +1,4 @@
+using Poster.Infrastructure;
 using Poster.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add Database
+builder.Services.AddDbContext<PosterContext>();
 
 var app = builder.Build();
 
@@ -17,7 +21,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
