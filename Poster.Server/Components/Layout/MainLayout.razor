@@ -1,25 +1,50 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor.Utilities
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="CustomTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudAppBar Color="Color.Primary" Elevation="0" Fixed="true">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
-    <MudSpacer />
-    <MudButtonGroup Color="Colo" Variant="Variant.Text">
-        <MudButton Href="Account/Register">Register</MudButton>
-        <MudButton Href="Account/Login">Login</MudButton>
-    </MudButtonGroup>
-</MudAppBar>
+<MudLayout>
+    <MudAppBar Color="Color.Dark" Elevation="10" Fixed="true">
+        <MudText Typo="Typo.h2" Color="Color.Primary">Poster!</MudText>
+        <MudSpacer/>
+        <MudButtonGroup Variant="Variant.Text" Color="Color.Primary">
+            <MudButton Href="Account/Register">Register</MudButton>
+            <MudButton Href="Account/Login">Login</MudButton>
+        </MudButtonGroup>
+    </MudAppBar>
+    
+    <MudDrawer Open="true"
+               Color="Color.Dark"
+               ClipMode="DrawerClipMode.Always"
+               Elevation="5"
+               Variant="DrawerVariant.Persistent">
+        <MudDrawerHeader>Woah Drawer</MudDrawerHeader>
+    </MudDrawer>
 
-<div style="margin: 10px">
-    @Body
-</div>
+    <MudMainContent Style="margin: 10px">
+        @Body
+    </MudMainContent>
+    
+</MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code{
+
+    private MudTheme CustomTheme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = MudColor.Parse("#FFFFFF"),
+            Dark = MudColor.Parse("#222222")
+        }
+    };
+
+}
