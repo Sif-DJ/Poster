@@ -6,35 +6,36 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Color="Color.Dark" Elevation="10" Fixed="true">
-        <MudText Typo="Typo.h2" Color="Color.Primary">Poster!</MudText>
-        @if()
-        <MudText Typo="Typo.h4" Color="Color.Primary">></MudText>
-        <MudSpacer/>
-        <MudButtonGroup Variant="Variant.Text" Color="Color.Primary">
-            <MudButton Href="Account/Register">Register</MudButton>
-            <MudButton Href="Account/Login">Login</MudButton>
-        </MudButtonGroup>
-    </MudAppBar>
-    
-    <MudDrawer Open="true"
-               Color="Color.Dark"
-               ClipMode="DrawerClipMode.Always"
-               Elevation="5"
-               Variant="DrawerVariant.Persistent">
-        <MudNavMenu>
+<CascadingValue Value="this">
+    <MudLayout>
+        <MudAppBar Color="Color.Dark" Elevation="10" Fixed="true">
+            <MudText Typo="Typo.h2" Color="Color.Primary">Poster!</MudText>
             
-        </MudNavMenu>
-    </MudDrawer>
+            <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-left: 10px">▶ @Title</MudText>
+            <MudSpacer/>
+            <MudButtonGroup Variant="Variant.Text" Color="Color.Primary">
+                <MudButton Href="Account/Register">Register</MudButton>
+                <MudButton Href="Account/Login">Login</MudButton>
+            </MudButtonGroup>
+        </MudAppBar>
 
-    <MudMainContent>
-        <div style="margin: 10px">
-            @Body
-        </div>
-    </MudMainContent>
-    
-</MudLayout>
+        <MudDrawer Open="true"
+                   Color="Color.Dark"
+                   ClipMode="DrawerClipMode.Always"
+                   Elevation="5"
+                   Variant="DrawerVariant.Persistent">
+            <MudNavMenu>
+
+            </MudNavMenu>
+        </MudDrawer>
+
+        <MudMainContent>
+            <div style="margin: 10px">
+                @Body
+            </div>
+        </MudMainContent>
+    </MudLayout>
+</CascadingValue>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -43,6 +44,18 @@
 </div>
 
 @code{
+
+    private string title = "";
+
+    public string Title
+    {
+        get => title;
+        set
+        {
+            title = value;
+            InvokeAsync(() => StateHasChanged());
+        }
+    }
 
     private MudTheme CustomTheme = new MudTheme()
     {

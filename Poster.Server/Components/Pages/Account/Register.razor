@@ -1,9 +1,20 @@
 ﻿@page "/Account/Register"
+@using System.Reflection.Metadata
 @using Poster.Infrastructure.Repositories
+@using Poster.Server.Components.Layout
 @inject UserRepository UserRepo
 
-<PageTitle>Register</PageTitle>
+<PageTitle>@Layout.Title</PageTitle>
 
 @code {
     
+    [CascadingParameter]
+    public required MainLayout Layout { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Layout.Title = "Register";
+        await base.OnInitializedAsync();
+    }
+
 }
