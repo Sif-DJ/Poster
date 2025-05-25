@@ -84,3 +84,6 @@ fabric.properties
 
 **/bin
 **/obj
+**/Properties
+/Poster.Core/obj
+/Poster.Infrastructure/obj
