@@ -1,7 +1,25 @@
 ﻿@page "/"
+@using Poster.Infrastructure.Repositories
+@inject UserRepository UserRepo
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<br/>
+
+Number of users: @amountOfUsers
+
+@code{
+
+    private int amountOfUsers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        amountOfUsers = await UserRepo.GetAmountOfUsers();
+        await base.OnInitializedAsync();
+    }
+
+}

@@ -1,6 +1,7 @@
 using Poster.Infrastructure;
 using Poster.Server.Components;
 using MudBlazor.Services;
+using Poster.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddMudServices();
 
 // Add Database
 builder.Services.AddDbContext<PosterContext>();
+
+// Add repositories
+builder.Services.AddScoped<UserRepository>();
 
 var app = builder.Build();
 
