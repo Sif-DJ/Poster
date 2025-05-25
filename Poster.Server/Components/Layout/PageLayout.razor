@@ -1,0 +1,14 @@
+﻿@code {
+    
+    [CascadingParameter]
+    public required MainLayout Layout { get; set; }
+    
+    public required string title;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Layout.Title = title;
+        await base.OnInitializedAsync();
+    }
+    
+}
