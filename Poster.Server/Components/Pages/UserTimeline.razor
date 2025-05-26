@@ -1,0 +1,19 @@
+﻿@page "/Timeline/{username}"
+@inherits Poster.Server.Components.Layout.PageLayout
+
+<MudStack>
+    
+</MudStack>
+
+@code {
+
+    [Parameter]
+    private string username { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        title = "Timeline";
+        await base.OnInitializedAsync();
+    }
+
+}

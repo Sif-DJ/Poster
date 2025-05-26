@@ -4,10 +4,18 @@
 @inherits PageLayout
 @inject UserRepository UserRepo
 
-<MudTextField T="string" Variant="Variant.Outlined" HelperText="Username"/>
-<MudTextField T="string" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+<MudTextField T="string" @bind-Value="@username" Variant="Variant.Outlined" HelperText="Username"/>
+<MudTextField T="string" @bind-Value="@password" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+<MudButton OnClick="@(() => AttemptLogin())" Color="Color.Dark" Variant="Variant.Filled">Login</MudButton>
+
+<MudText Color="Color.Error">@error</MudText>
 
 @code {
+
+    private string username = "";
+    private string password = "";
+
+    private string error = "";
     
     protected override async Task OnInitializedAsync()
     {
@@ -15,4 +23,21 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task AttemptLogin()
+    {
+        if (await UserRepo.UserNameExists(username))
+        {
+            var user = await UserRepo.Login(username, password);
+            if (user == null)
+            {
+                error = "Password doesn't match";
+                return;
+            }
+            await ProtectedSessionStore.SetAsync("LoggedInUser", user);
+            NavMan.NavigateTo("/");
+            return;
+        }
+        error = "Username does not exist";
+    }
+    
 }

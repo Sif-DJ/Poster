@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.5" />
       <PackageReference Include="MudBlazor" Version="8.6.0" />
     </ItemGroup>
 

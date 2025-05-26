@@ -1,4 +1,5 @@
 ﻿@using MudBlazor.Utilities
+@using Poster.Core.Models
 @inherits LayoutComponentBase
 
 <MudThemeProvider Theme="CustomTheme" />
@@ -17,8 +18,14 @@
             <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-left: 10px">▶ @Title</MudText>
             <MudSpacer/>
             <MudButtonGroup Variant="Variant.Text" Color="Color.Primary">
-                <MudButton Href="Account/Register">Register</MudButton>
-                <MudButton Href="Account/Login">Login</MudButton>
+                @if(User == null){
+                    <MudButton Href="Account/Register">Register</MudButton>
+                    <MudButton Href="Account/Login">Login</MudButton>
+                }
+                else
+                {
+                    <MudButton OnClick="@(() => LogOut())">Logout</MudButton>
+                }
             </MudButtonGroup>
         </MudAppBar>
 
@@ -49,6 +56,7 @@
 @code{
 
     private string title = "";
+    private User? user;
 
     public string Title
     {
@@ -56,6 +64,16 @@
         set
         {
             title = value;
+            InvokeAsync(() => StateHasChanged());
+        }
+    }
+
+    public User? User
+    {
+        get => user;
+        set
+        {
+            user = value;
             InvokeAsync(() => StateHasChanged());
         }
     }
@@ -70,4 +88,10 @@
         }
     };
 
+    private async Task LogOut()
+    {
+        User = null;
+        await ProtectedSessionStore.SetAsync("LoggedInUser", User);
+        NavMan.NavigateTo("/", true);
+    }
 }
