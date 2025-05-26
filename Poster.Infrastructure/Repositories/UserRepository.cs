@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Web.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Poster.Core.DTOs;
 using Poster.Core.Models;
 
 namespace Poster.Infrastructure.Repositories;
@@ -35,5 +36,26 @@ public class UserRepository(PosterContext context)
         if (user == null)
             return null;
         return Crypto.VerifyHashedPassword(user.Password, password) ? user : null;
+    }
+
+    public async Task<UserDTO?> GetUserDTOByName(string userName)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+        var dto = GetUserDTO(user);
+        return dto;
+    }
+
+    private UserDTO? GetUserDTO(User? user)
+    {
+        if (user is not null)
+        {
+            UserDTO userDTO = new UserDTO
+            {
+                Username = user.UserName,
+                Posts = user.Posts
+            };
+            return userDTO;
+        }
+        return null;
     }
 }

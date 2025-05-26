@@ -1,5 +1,18 @@
-﻿<h3>Post</h3>
+﻿<MudPaper Outlined="true">
+    <MudStack>
+        <MudText Typo="Typo.subtitle1">@post.Title</MudText>
+        <MudStack Row>
+            <MudText Typo="Typo.subtitle2">@("@"+post.User.UserName)</MudText>
+            <MudSpacer/>
+            <MudText Typo="Typo.caption">@post.PublishDate</MudText>
+        </MudStack>
+        <MudText Typo="Typo.body1">@post.Content</MudText>
+    </MudStack>
+</MudPaper>
 
-@code {
-    
+@code{
+
+    [Parameter]
+    public required Core.Models.Post post { get; set; }
+
 }

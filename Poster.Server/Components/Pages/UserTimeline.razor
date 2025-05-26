@@ -1,19 +1,36 @@
 ﻿@page "/Timeline/{username}"
+@using Poster.Core.DTOs
+@using Poster.Infrastructure.Repositories
 @inherits Poster.Server.Components.Layout.PageLayout
+@inject UserRepository UserRepo
 
-<MudStack>
-    
-</MudStack>
+@if (user?.Posts.Count > 0)
+{
+    <MudStack>
+        @foreach (var post in user.Posts)
+        {
+            <Post post="post"/>
+        }
+    </MudStack>
+}
+else
+{
+    <MudText Typo="Typo.h6">This user has not posted anything yet</MudText> 
+}
 
 @code {
 
     [Parameter]
-    private string username { get; set; }
+    public string username { get; set; }
 
+    private UserDTO? user;
+    
     protected override async Task OnInitializedAsync()
     {
-        title = "Timeline";
+        title = username + "'s Timeline";
+        user = await UserRepo.GetUserDTOByName(username);
+        if(user is null)
+            NavMan.NavigateTo("/");
         await base.OnInitializedAsync();
     }
-
 }
