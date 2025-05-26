@@ -1,0 +1,18 @@
+﻿@page "/Account/Login"
+@using Poster.Infrastructure.Repositories
+@using Poster.Server.Components.Layout
+@inherits PageLayout
+@inject UserRepository UserRepo
+
+<MudTextField T="string" Variant="Variant.Outlined" HelperText="Username"/>
+<MudTextField T="string" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+
+@code {
+    
+    protected override async Task OnInitializedAsync()
+    {
+        title = "Login";
+        await base.OnInitializedAsync();
+    }
+
+}
