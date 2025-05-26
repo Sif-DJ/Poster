@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Cryptography;
+using System.Web.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Poster.Core.Models;
 
 namespace Poster.Infrastructure.Repositories;
@@ -22,7 +24,7 @@ public class UserRepository(PosterContext context)
         {
             Id = 0,
             UserName = userName,
-            Password = password
+            Password = Crypto.HashPassword(password)
         });
         await context.SaveChangesAsync();
     }
@@ -32,6 +34,6 @@ public class UserRepository(PosterContext context)
         var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
         if (user == null)
             return null;
-        return user.Password.Equals(password) ? user : null;
+        return Crypto.VerifyHashedPassword(user.Password, password) ? user : null;
     }
 }
