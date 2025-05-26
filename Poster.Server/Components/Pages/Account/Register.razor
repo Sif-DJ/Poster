@@ -5,9 +5,9 @@
 @inherits PageLayout
 @inject UserRepository UserRepo
 
-<MudTextField T="string" bind-Value="username" Variant="Variant.Outlined" HelperText="Username"/>
-<MudTextField T="string" bind-Value="password" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
-<MudButton OnClick="@(() => AttemptRegister())" Color="Color.Primary">Submit</MudButton>
+<MudTextField T="string" @bind-Value="@username" Variant="Variant.Outlined" HelperText="Username"/>
+<MudTextField T="string" @bind-Value="@password" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+<MudButton OnClick="@(() => AttemptRegister())" Color="Color.Dark" Variant="Variant.Filled">Submit</MudButton>
 
 @code {
 
@@ -22,14 +22,23 @@
 
     private async Task AttemptRegister()
     {
+        Console.WriteLine("Attempting to make an account");
         if (password.Length < 8 || username.Length < 1)
+        {
+            Console.WriteLine("Does not match basic checks");
             return;
+        }
+        Console.WriteLine("Passes basic checks");
         var isTaken = await UserRepo.UserNameExists(username);
         if (isTaken)
             return;
+        Console.WriteLine("Passes advanced checks");
+        Console.WriteLine("Attempting to create new user");
         await UserRepo.AddNewUser(username, password);
+        Console.WriteLine("Attempting to login as this user");
         User? user = await UserRepo.Login(username, password);
         await ProtectedSessionStore.SetAsync("LoggedInUser", user);
+        Console.WriteLine("Successful registration");
         NavMan.NavigateTo("/");
     }
 }

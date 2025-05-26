@@ -24,15 +24,14 @@ public class UserRepository(PosterContext context)
             UserName = userName,
             Password = password
         });
+        await context.SaveChangesAsync();
     }
 
     public async Task<User?> Login(string username, string password)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
-        if (user != null)
+        if (user == null)
             return null;
-        if (user.Password != password)
-            return user;
-        return null;
+        return user.Password.Equals(password) ? user : null;
     }
 }

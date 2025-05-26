@@ -5,6 +5,11 @@
 
 Number of users: @amountOfUsers
 
+@if (User is not null)
+{
+    <p>Logged in as @User.UserName</p>
+}
+
 @code{
 
     private int amountOfUsers;
