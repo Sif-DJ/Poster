@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Poster.Core.Models;
 
-public class User : IdentityUser
+public class User
 {
-    public required List<Post> Posts { get; set; }
+    [Key]
+    public required int Id { get; set; }
+    public required string UserName { get; set; }
+    public required string Password { get; set; }
+    public List<Post> Posts { get; set; } = new List<Post>();
 }

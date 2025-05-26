@@ -1,13 +1,18 @@
 ﻿@page "/Account/Register"
+@using Poster.Core.Models
 @using Poster.Infrastructure.Repositories
 @using Poster.Server.Components.Layout
 @inherits PageLayout
 @inject UserRepository UserRepo
 
-<MudTextField T="string" Variant="Variant.Outlined" HelperText="Username"/>
-<MudTextField T="string" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+<MudTextField T="string" bind-Value="username" Variant="Variant.Outlined" HelperText="Username"/>
+<MudTextField T="string" bind-Value="password" Variant="Variant.Outlined" InputType="InputType.Password" HelperText="Password"/>
+<MudButton OnClick="@(() => AttemptRegister())" Color="Color.Primary">Submit</MudButton>
 
 @code {
+
+    private string username = "";
+    private string password = "";
     
     protected override async Task OnInitializedAsync()
     {
@@ -15,4 +20,16 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task AttemptRegister()
+    {
+        if (password.Length < 8 || username.Length < 1)
+            return;
+        var isTaken = await UserRepo.UserNameExists(username);
+        if (isTaken)
+            return;
+        await UserRepo.AddNewUser(username, password);
+        User? user = await UserRepo.Login(username, password);
+        await ProtectedSessionStore.SetAsync("LoggedInUser", user);
+        NavMan.NavigateTo("/");
+    }
 }

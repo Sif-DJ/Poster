@@ -1,13 +1,20 @@
-﻿@code {
+﻿@using Poster.Core.Models
+@code {
     
     [CascadingParameter]
     public required MainLayout Layout { get; set; }
     
     public required string title;
+    public User? User;
     
     protected override async Task OnInitializedAsync()
     {
         Layout.Title = title;
+        var result = await ProtectedSessionStore.GetAsync<User>("LoggedInUser");
+        if (result.Success)
+        {
+            User = result.Value;
+        }
         await base.OnInitializedAsync();
     }
     
