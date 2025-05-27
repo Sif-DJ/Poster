@@ -3,6 +3,7 @@ using System.Web.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Poster.Core.DTOs;
 using Poster.Core.Models;
+using static Poster.Core.Extensions;
 
 namespace Poster.Infrastructure.Repositories;
 
@@ -52,23 +53,5 @@ public class UserRepository(PosterContext context)
             Username = user.UserName,
             Posts = GetPosts(user)
         };
-    }
-
-    private List<PostDTO> GetPosts(User user)
-    {
-        var list = new List<PostDTO>();
-        foreach (var post in user.Posts)
-        {
-            var dto = new PostDTO
-            {
-                Id = post.Id,
-                Title = post.Title,
-                Content = post.Content,
-                PublishDate = post.PublishDate,
-                UserId = user.Id
-            };
-            list.Add(dto);
-        }
-        return list;
     }
 }

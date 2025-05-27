@@ -1,5 +1,6 @@
-﻿@using Poster.Infrastructure.Repositories
-@inject UserRepository UserRepo
+﻿@using Poster.Core.DTOs
+@using Poster.Infrastructure.Repositories
+@inject PostRepository PostRepo
 
 <MudOverlay LockScroll="true" @bind-Visible="@isVisible" DarkBackground="true">
     <MudPaper Class="overflow-auto" Outlined="true" Style="padding: 10px" Width="500px">
@@ -24,13 +25,16 @@
     
     [Parameter]
     public bool isVisible { get; set; }
+    
+    [Parameter]
+    public UserDTO user { get; set; }
 
     private string title;
     private string content;
 
     private async Task MakePost()
     {
-        
+        await PostRepo.AddPost(user, title, content);
     }
     
 }

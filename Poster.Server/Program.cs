@@ -16,6 +16,7 @@ builder.Services.AddDbContext<PosterContext>();
 
 // Add repositories
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<PostRepository>();
 
 var app = builder.Build();
 
