@@ -11,6 +11,8 @@ Number of users: @amountOfUsers
     <p>Logged in as @User.Username</p>
 }
 
+<MudButton OnClick="@(() => Layout.OpenMakePost())">Make Post!</MudButton>
+
 @code{
 
     private int amountOfUsers;

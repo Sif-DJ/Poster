@@ -1,8 +1,10 @@
-﻿<MudPaper Outlined="true">
+﻿@using Poster.Core.DTOs
+
+<MudPaper Outlined="true">
     <MudStack>
         <MudText Typo="Typo.subtitle1">@post.Title</MudText>
         <MudStack Row>
-            <MudText Typo="Typo.subtitle2">@("@"+post.User.UserName)</MudText>
+            <MudText Typo="Typo.subtitle2">@("@"+user.Username)</MudText>
             <MudSpacer/>
             <MudText Typo="Typo.caption">@post.PublishDate</MudText>
         </MudStack>
@@ -11,8 +13,11 @@
 </MudPaper>
 
 @code{
+    
+    [Parameter]
+    public required UserDTO user { get; set; }
 
     [Parameter]
-    public required Core.Models.Post post { get; set; }
+    public required PostDTO post { get; set; }
 
 }

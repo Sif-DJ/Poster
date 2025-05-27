@@ -1,0 +1,36 @@
+﻿@using Poster.Infrastructure.Repositories
+@inject UserRepository UserRepo
+
+<MudOverlay LockScroll="true" @bind-Visible="@isVisible" DarkBackground="true">
+    <MudPaper Class="overflow-auto" Outlined="true" Style="padding: 10px" Width="500px">
+        <MudStack Justify="Justify.Center">
+            <MudTextField @bind-Value="title" Variant="Variant.Outlined" HelperText="Title"/>
+            <MudTextField @bind-Value="content"
+                          Variant="Variant.Outlined"
+                          HelperText="Content"
+                          AutoGrow="true"/>
+        </MudStack>
+    </MudPaper>
+    <MudStack Row>
+        <MudButton Color="Color.Error">Discard</MudButton>
+        <MudButton Color="Color.Info">Post!</MudButton>
+    </MudStack>
+</MudOverlay>
+
+
+
+
+@code {
+    
+    [Parameter]
+    public bool isVisible { get; set; }
+
+    private string title;
+    private string content;
+
+    private async Task MakePost()
+    {
+        
+    }
+    
+}

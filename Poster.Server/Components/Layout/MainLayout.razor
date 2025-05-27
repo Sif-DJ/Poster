@@ -1,6 +1,7 @@
 ﻿@using MudBlazor.Utilities
 @using Poster.Core.DTOs
 @using Poster.Core.Models
+@using Poster.Server.Components.Pages
 @inherits LayoutComponentBase
 
 <MudThemeProvider Theme="CustomTheme" />
@@ -46,6 +47,7 @@
         <MudMainContent>
             <div style="margin: 10px">
                 @Body
+                <CreatePost isVisible="@displayCreatePost"/>
             </div>
         </MudMainContent>
     </MudLayout>
@@ -59,6 +61,8 @@
 
 @code{
 
+    private bool displayCreatePost;
+    
     private string title = "";
     private UserDTO? user;
 
@@ -97,5 +101,11 @@
         User = null;
         await ProtectedSessionStore.SetAsync("LoggedInUser", User);
         NavMan.NavigateTo("/", true);
+    }
+
+    public void OpenMakePost()
+    {
+        displayCreatePost = true;
+        StateHasChanged();
     }
 }

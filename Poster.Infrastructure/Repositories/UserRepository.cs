@@ -45,17 +45,30 @@ public class UserRepository(PosterContext context)
         return dto;
     }
 
-    private UserDTO? GetUserDTO(User? user)
+    private UserDTO? GetUserDTO(User user)
     {
-        if (user is not null)
+        return new UserDTO
         {
-            UserDTO userDTO = new UserDTO
+            Username = user.UserName,
+            Posts = GetPosts(user)
+        };
+    }
+
+    private List<PostDTO> GetPosts(User user)
+    {
+        var list = new List<PostDTO>();
+        foreach (var post in user.Posts)
+        {
+            var dto = new PostDTO
             {
-                Username = user.UserName,
-                Posts = user.Posts
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                PublishDate = post.PublishDate,
+                UserId = user.Id
             };
-            return userDTO;
+            list.Add(dto);
         }
-        return null;
+        return list;
     }
 }
