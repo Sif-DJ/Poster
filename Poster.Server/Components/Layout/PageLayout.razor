@@ -1,16 +1,17 @@
-﻿@using Poster.Core.Models
+﻿@using Poster.Core.DTOs
+@using Poster.Core.Models
 @code {
     
     [CascadingParameter]
     public required MainLayout Layout { get; set; }
     
     public required string title;
-    public User? User;
+    public UserDTO? User;
     
     protected override async Task OnInitializedAsync()
     {
         Layout.Title = title;
-        var result = await ProtectedSessionStore.GetAsync<User>("LoggedInUser");
+        var result = await ProtectedSessionStore.GetAsync<UserDTO>("LoggedInUser");
         if (result.Success)
         {
             User = result.Value;

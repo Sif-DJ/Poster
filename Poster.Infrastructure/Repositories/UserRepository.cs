@@ -30,12 +30,12 @@ public class UserRepository(PosterContext context)
         await context.SaveChangesAsync();
     }
 
-    public async Task<User?> Login(string username, string password)
+    public async Task<UserDTO?> Login(string username, string password)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
         if (user == null)
             return null;
-        return Crypto.VerifyHashedPassword(user.Password, password) ? user : null;
+        return Crypto.VerifyHashedPassword(user.Password, password) ? GetUserDTO(user) : null;
     }
 
     public async Task<UserDTO?> GetUserDTOByName(string userName)

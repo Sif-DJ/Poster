@@ -1,4 +1,5 @@
 ﻿@page "/Account/Register"
+@using Poster.Core.DTOs
 @using Poster.Core.Models
 @using Poster.Infrastructure.Repositories
 @using Poster.Server.Components.Layout
@@ -36,7 +37,7 @@
         Console.WriteLine("Attempting to create new user");
         await UserRepo.AddNewUser(username, password);
         Console.WriteLine("Attempting to login as this user");
-        User? user = await UserRepo.Login(username, password);
+        UserDTO? user = await UserRepo.Login(username, password);
         await ProtectedSessionStore.SetAsync("LoggedInUser", user);
         Console.WriteLine("Successful registration");
         NavMan.NavigateTo("/");

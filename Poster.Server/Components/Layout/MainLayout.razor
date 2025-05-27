@@ -1,4 +1,5 @@
 ﻿@using MudBlazor.Utilities
+@using Poster.Core.DTOs
 @using Poster.Core.Models
 @inherits LayoutComponentBase
 
@@ -34,8 +35,11 @@
                    ClipMode="DrawerClipMode.Always"
                    Elevation="5"
                    Variant="DrawerVariant.Persistent">
-            <MudNavMenu>
-                <MudNavLink Href="Error">Error</MudNavLink>
+            <MudNavMenu Bordered="true" Color="Color.Primary">
+                @if (User is not null)
+                {
+                    <MudNavLink Href="@("Timeline/"+User.Username)">Own Timeline</MudNavLink>
+                }
             </MudNavMenu>
         </MudDrawer>
 
@@ -56,7 +60,7 @@
 @code{
 
     private string title = "";
-    private User? user;
+    private UserDTO? user;
 
     public string Title
     {
@@ -68,7 +72,7 @@
         }
     }
 
-    public User? User
+    public UserDTO? User
     {
         get => user;
         set
