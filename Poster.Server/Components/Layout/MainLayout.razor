@@ -47,7 +47,7 @@
         <MudMainContent>
             <div style="margin: 10px">
                 @Body
-                <CreatePost isVisible="@displayCreatePost" user="User"/>
+                <CreatePost isVisible="@DisplayCreatePost" user="User"/>
             </div>
         </MudMainContent>
     </MudLayout>
@@ -61,7 +61,7 @@
 
 @code{
 
-    private bool displayCreatePost;
+    public bool DisplayCreatePost;
     
     private string title = "";
     private UserDTO? user;
@@ -105,7 +105,7 @@
 
     public void OpenMakePost()
     {
-        displayCreatePost = true;
+        DisplayCreatePost = true;
         StateHasChanged();
     }
 }

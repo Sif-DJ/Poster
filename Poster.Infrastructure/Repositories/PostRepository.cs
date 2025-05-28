@@ -22,6 +22,26 @@ public class PostRepository(PosterContext context)
             };
             posts.Add(dto);
         }
+
+        posts.Reverse();
+        return posts;
+    }
+
+    public async Task<List<PostDTO>> GetAllPostsByUserId(int userId)
+    {
+        List<PostDTO> posts = new List<PostDTO>();
+        foreach (var post in context.Posts.Include(post => post.User))
+        {
+            var dto = new PostDTO
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                PublishDate = post.PublishDate,
+                UserId = post.User.Id
+            };
+            posts.Add(dto);
+        }
         return posts;
     }
 

@@ -46,6 +46,13 @@ public class UserRepository(PosterContext context)
         return dto;
     }
 
+    public async Task<UserDTO?> GetUserDTOById(int userId)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        var dto = GetUserDTO(user);
+        return dto;
+    }
+
     private UserDTO? GetUserDTO(User user)
     {
         return new UserDTO

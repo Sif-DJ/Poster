@@ -1,26 +1,37 @@
 ﻿@page "/"
 @page "/Home"
+@using Poster.Core.DTOs
 @using Poster.Infrastructure.Repositories
 @inherits Poster.Server.Components.Layout.PageLayout
 @inject UserRepository UserRepo
+@inject PostRepository PostRepo
 
 Number of users: @amountOfUsers
 
 @if (User is not null)
 {
     <p>Logged in as @User.Username</p>
+    <MudButton OnClick="@(() => Layout.OpenMakePost())">Make Post!</MudButton>
 }
 
-<MudButton OnClick="@(() => Layout.OpenMakePost())">Make Post!</MudButton>
+<MudStack>
+    @foreach (var post in posts)
+    {
+        <Post post="post" user="@(UserRepo.GetUserDTOById(post.UserId).Result)"/>
+    }
+</MudStack>
 
 @code{
 
     private int amountOfUsers;
 
+    private List<PostDTO> posts;
+
     protected override async Task OnInitializedAsync()
     {
         title = "Home";
         amountOfUsers = await UserRepo.GetAmountOfUsers();
+        posts = await PostRepo.GetAllPosts();
         await base.OnInitializedAsync();
     }
 
