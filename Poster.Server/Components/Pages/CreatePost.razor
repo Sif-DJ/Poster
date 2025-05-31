@@ -4,16 +4,19 @@
 @inject PostRepository PostRepo
 
 <MudOverlay @bind-Visible="@isVisible" DarkBackground="true">
-    <MudPaper Class="overflow-auto" Outlined="true" Style="padding: 10px" Width="500px">
+    <MudPaper Outlined="true" Style="padding: 10px;" Width="500px">
         <MudStack Justify="Justify.Center">
             <MudText Typo="Typo.h6">Create a Post!</MudText>
             <MudTextField @bind-Value="postTitle"
                           Variant="Variant.Outlined"
-                          HelperText="Title"/>
+                          HelperText="Title"
+                          AutoGrow="true"
+                          MaxLines="5"/>
             <MudTextField @bind-Value="postContent"
                           Variant="Variant.Outlined"
                           HelperText="Content"
-                          AutoGrow="true"/>
+                          AutoGrow="true"
+                          MaxLines="10"/>
         </MudStack>
     </MudPaper>
     <MudStack Row StretchItems="StretchItems.All"

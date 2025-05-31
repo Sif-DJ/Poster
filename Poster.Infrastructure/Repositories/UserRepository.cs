@@ -17,7 +17,7 @@ public class UserRepository(PosterContext context)
 
     public async Task<bool> UserNameExists(string userName)
     {
-        return await context.Users.AnyAsync(x => x.UserName == userName);
+        return await context.Users.AnyAsync(x => x.UserName.Equals(userName));
     }
 
     public async Task AddNewUser(string userName, string password)
@@ -33,7 +33,7 @@ public class UserRepository(PosterContext context)
 
     public async Task<UserDTO?> Login(string username, string password)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName.Equals(username));
         if (user == null)
             return null;
         return Crypto.VerifyHashedPassword(user.Password, password) ? GetUserDTO(user) : null;
@@ -41,19 +41,33 @@ public class UserRepository(PosterContext context)
 
     public async Task<UserDTO?> GetUserDTOByName(string userName)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+        var user = await context.Users
+            .Include(user => user.Posts)
+            .FirstOrDefaultAsync(x => x.UserName.Equals(userName));
+        if (user == null)
+        {
+            Console.WriteLine("No user found");
+            return null;
+        }
         var dto = GetUserDTO(user);
         return dto;
     }
 
     public async Task<UserDTO?> GetUserDTOById(int userId)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        var user = await context.Users
+            .Include(user => user.Posts)
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+        if (user == null)
+        {
+            Console.WriteLine("No user found");
+            return null;
+        }
         var dto = GetUserDTO(user);
         return dto;
     }
 
-    private UserDTO? GetUserDTO(User user)
+    private UserDTO GetUserDTO(User user)
     {
         return new UserDTO
         {
